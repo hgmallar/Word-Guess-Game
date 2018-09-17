@@ -1,0 +1,42 @@
+#col1{
+    width: 30%;
+    vertical-align: middle;
+}
+#col2{
+    width: 70%;
+}
+
+.card-title{
+    margin-bottom: 0 !important;
+    text-emphasis: bold; 
+    font-family: 'Jua', sans-serif;
+}
+
+.card-text{
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.75rem;
+    color: rgba(241, 79, 241, 1);
+    text-shadow: 2px 2px rgba(255, 238, 0, 0.856);
+}
+
+#wins-text, #count-text, #picture-text, #letters-guessed, #word-text{
+    color: rgba(241, 79, 241, 1);
+}
+
+img{
+    max-width: 400px;
+    width:95%;
+}
+
+#picture-text{
+    text-transform: uppercase;
+    font-family: 'Jua', sans-serif;
+}
+
+#instructions{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#letters-guessed{
+    white-space: pre-wrap;
+}

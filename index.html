@@ -1,15 +1,53 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Word Guess Game</title>
-        <link rel="stylesheet" href="assets/css/reset.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/style.css" type="text/css">
-    </head>
-    <body>
-        <h1>Word Guess Game</h1>
-        
-        <script type="text/javascript" src="assets/javascript/game.js"> 
 
-        </script>
-    </body>
+<head>
+    <title>Word Guess Game</title>
+    <link rel="stylesheet" href="assets/css/reset.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Jua|Permanent+Marker" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="card text-center">
+            <div class="card-header">
+                <h1 class="card-title"><i class="fas fa-calculator"></i> Word Guess Game</h1>
+                <p class="card-text">Geometry Style</p>
+            </div>
+            <div class="card-body">
+                <h5 id="instructions">Press any key to get started!</h5>
+                <table class="table">
+                    <tr>
+                        <td id="col1">
+                            <div class="text-center">
+                                <img src="assets/images/sunflower.jpg" class="rounded" alt="sunflower_geometry" id="geo-image">
+                                <h3 id="picture-text">Test</h3>
+                            </div>
+                        </td>
+                        <td id="col2">
+                            <h3>Wins</h3>
+                            <h3 id="wins-text">0</h3>
+                            <h3>Current Word</h3>
+                            <h3 id="word-text"></h3>
+                            <h3>Number of guesses remaining</h3>
+                            <h3 id="count-text">13</h3>
+                            <h3>Letters already guessed</h3>
+                            <h3 id="letters-guessed"> </h3>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="assets/javascript/game.js"></script>
+
+</body>
+
 </html>
