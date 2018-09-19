@@ -31,6 +31,7 @@ img{
 #picture-text{
     text-transform: uppercase;
     font-family: 'Jua', sans-serif;
+    white-space: pre-wrap;
 }
 
 #instructions{

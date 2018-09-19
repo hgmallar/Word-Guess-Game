@@ -1,10 +1,8 @@
-var wordArray = []; //an array of blanks and correctly guessed letters
-var lettersGuessed = []; //an array of incorrectly guessed letters
-var lettersInArray = "";
-var guessesRemaining = 13;
-var winCounter = 0;
+//initialize varialbles-------------------------------------------------------
+
+var lettersInArray = ""; //a string used to print lettersGuessed to the screen
 var mathWords = ["angle", "circumference", "parallel", "perpendicular", "square", "rectangle", "triangle", "rhombus", "ellipse",
-    "pentagon", "trapezoid", "parallelogram", "hexagon", "decagon", "fractal", "octagon", "cylinder", "sphere", "concave", "hyperbola"]
+    "pentagon", "trapezoid", "parallelogram", "hexagon", "decagon", "fractal", "octagon", "cylinder", "sphere", "concave", "hyperbola"] //words to choose from
 
 var winsText = document.getElementById("wins-text");
 var wordText = document.getElementById("word-text");
@@ -13,48 +11,59 @@ var printLetters = document.getElementById("letters-guessed");
 var picText = document.getElementById("picture-text");
 var geoImage = document.getElementById("geo-image");
 
-//functions
+//objects-----------------------------------------------------------------------
+
+var game = {
+    winCounter: 0,
+    wordArray: [],
+    guessesRemaining: 0,
+    lettersGuessed: [],
+    mathWord: mathWords[Math.floor(Math.random() * mathWords.length)],
+
+    //this creates a wordArray of blanks
+    wordArrayReset: function () {
+        for (var i = 0; i < this.mathWord.length; i++) {
+            this.wordArray[i] = "___";
+        }
+    },
+
+    //resets the object properties
+    reset: function () {
+        this.guessesRemaining = 13;
+        this.lettersGuessed = [];
+        this.mathWord = mathWords[Math.floor(Math.random() * mathWords.length)];
+        this.wordArray = [];
+        this.wordArrayReset();
+    }
+};
+
+//functions---------------------------------------------------------------------
 
 //this makes a concatenated string based of elemets in the wordArray with a blank space in between and returns the final string
 function makeBlanksString() {
     var blanksAndChars = "";
-    for (var i = 0; i < wordArray.length - 1; i++) {
-        blanksAndChars += wordArray[i];
+    for (var i = 0; i < game.wordArray.length - 1; i++) {
+        blanksAndChars += game.wordArray[i];
         blanksAndChars += " ";
     }
-    blanksAndChars += wordArray[wordArray.length - 1];
+    blanksAndChars += game.wordArray[game.wordArray.length - 1];
     return blanksAndChars;
 }
 
-//this creates a wordArray of blanks
-function wordArrayReset() {
-    wordArray = [];
-    for (var i = 0; i < mathWord.length; i++) {
-        wordArray[i] = "___";
-    }
-}
-
+//this resets the game
 function resetGame() {
-    //choose a new word, reset the word array and print the correct number of blanks
-    mathWord = mathWords[Math.floor(Math.random() * mathWords.length)];
-    console.log(mathWord);
-    wordArrayReset();
-    wordText.textContent = makeBlanksString().toUpperCase();
-    //reset the number of guesses remaining and print it
-    guessesRemaining = 13;
-    countText.textContent = guessesRemaining;
-    //reset the lettersGuessed array and print the array
-    lettersGuessed = [];
+    //reset the number of guesses remaining, the letters guessed, the new word, and the word array and print 
+    game.reset();
+    countText.textContent = game.guessesRemaining;
     lettersInArray = "";
-    printLetters.textContent = lettersInArray;
+    printLetters.textContent = "";
+    wordText.textContent = makeBlanksString().toUpperCase();
 }
 
-//choose a random word to guess
-var mathWord = mathWords[Math.floor(Math.random() * mathWords.length)];
-console.log(mathWord);
+//--------------------------------------------------------------------------
 
 //create an array of blank spaces
-wordArrayReset();
+game.wordArrayReset();
 
 //initially print the correct number of blanks
 wordText.textContent = makeBlanksString().toUpperCase();
@@ -63,51 +72,48 @@ wordText.textContent = makeBlanksString().toUpperCase();
 document.onkeyup = function (event) {
 
     //check to see if the guess is in the word
-    if (mathWord.indexOf(event.key) !== -1) {
-        for (var i = 0; i < mathWord.length; i++) {
-            if (mathWord.charAt(i) === event.key) {
-                wordArray[i] = event.key;
+    //if it is, reveal the letters
+    if (game.mathWord.indexOf(event.key) !== -1) {
+        for (var i = 0; i < game.mathWord.length; i++) {
+            if (game.mathWord.charAt(i) === event.key) {
+                game.wordArray[i] = event.key;
             }
         }
         //update the wordText with the reveal
         wordText.textContent = makeBlanksString().toUpperCase();
     }
     //if guess is not in the word, add to the array 
-    else if (lettersGuessed.indexOf(event.key) === -1) {
-        lettersGuessed.push(event.key);
+    else if (game.lettersGuessed.indexOf(event.key) === -1) {
+        game.lettersGuessed.push(event.key);
         //print the array
         //format differently if we're only printing 1 item
-        if (lettersGuessed.length === 1) {
-            printLetters.textContent = lettersGuessed[0].toUpperCase();
-            lettersInArray = lettersGuessed[0];
+        if (game.lettersGuessed.length === 1) {
+            printLetters.textContent = game.lettersGuessed[0].toUpperCase();
+            lettersInArray = game.lettersGuessed[0];
         }
         else {
             lettersInArray = lettersInArray + ", " + event.key;
             printLetters.textContent = lettersInArray.toUpperCase()
         }
         //decrement counter and reprint if not already guessed
-        guessesRemaining--;
-        countText.textContent = guessesRemaining;
+        game.guessesRemaining--;
+        countText.textContent = game.guessesRemaining;
         //if you're out of guesses, reset the game
-        if (guessesRemaining === -1) {
+        if (game.guessesRemaining === -1) {
             resetGame();
         }
     }
 
     //check if there is a win
-    if (wordArray.indexOf("___") === -1) {
+    if (game.wordArray.indexOf("___") === -1) {
         //increment win counter & print it
-        winCounter++;
-        winsText.textContent = winCounter;
+        game.winCounter++;
+        winsText.textContent = game.winCounter;
         //change the picture and the text underneath it
-        var imageSrc = "assets/images/" + mathWord + ".svg";
+        var imageSrc = "assets/images/" + game.mathWord + ".svg";
         geoImage.src = imageSrc;
-        console.log("geoImage");
-        picText.textContent = mathWord;
+        picText.textContent = game.mathWord;
         //reset the game
         resetGame();
     }
-
-    console.log(event.key);
-    console.log(lettersGuessed);
 }
