@@ -16,7 +16,7 @@ var geoImage = document.getElementById("geo-image");
 var game = {
     winCounter: 0,
     wordArray: [],
-    guessesRemaining: 0,
+    guessesRemaining: 13,
     lettersGuessed: [],
     mathWord: mathWords[Math.floor(Math.random() * mathWords.length)],
 
@@ -71,49 +71,52 @@ wordText.textContent = makeBlanksString().toUpperCase();
 //wait for a key to be pressed
 document.onkeyup = function (event) {
 
-    //check to see if the guess is in the word
-    //if it is, reveal the letters
-    if (game.mathWord.indexOf(event.key) !== -1) {
-        for (var i = 0; i < game.mathWord.length; i++) {
-            if (game.mathWord.charAt(i) === event.key) {
-                game.wordArray[i] = event.key;
+    //only allow letters
+    if ((event.which >= 65) && (event.which <= 90)) {
+        //check to see if the guess is in the word
+        //if it is, reveal the letters
+        if (game.mathWord.indexOf(event.key) !== -1) {
+            for (var i = 0; i < game.mathWord.length; i++) {
+                if (game.mathWord.charAt(i) === event.key) {
+                    game.wordArray[i] = event.key;
+                }
+            }
+            //update the wordText with the reveal
+            wordText.textContent = makeBlanksString().toUpperCase();
+        }
+        //if guess is not in the word, add to the array 
+        else if (game.lettersGuessed.indexOf(event.key) === -1) {
+            game.lettersGuessed.push(event.key);
+            //print the array
+            //format differently if we're only printing 1 item
+            if (game.lettersGuessed.length === 1) {
+                printLetters.textContent = game.lettersGuessed[0].toUpperCase();
+                lettersInArray = game.lettersGuessed[0];
+            }
+            else {
+                lettersInArray = lettersInArray + ", " + event.key;
+                printLetters.textContent = lettersInArray.toUpperCase()
+            }
+            //decrement counter and reprint if not already guessed
+            game.guessesRemaining--;
+            countText.textContent = game.guessesRemaining;
+            //if you're out of guesses, reset the game
+            if (game.guessesRemaining === 0) {
+                resetGame();
             }
         }
-        //update the wordText with the reveal
-        wordText.textContent = makeBlanksString().toUpperCase();
-    }
-    //if guess is not in the word, add to the array 
-    else if (game.lettersGuessed.indexOf(event.key) === -1) {
-        game.lettersGuessed.push(event.key);
-        //print the array
-        //format differently if we're only printing 1 item
-        if (game.lettersGuessed.length === 1) {
-            printLetters.textContent = game.lettersGuessed[0].toUpperCase();
-            lettersInArray = game.lettersGuessed[0];
-        }
-        else {
-            lettersInArray = lettersInArray + ", " + event.key;
-            printLetters.textContent = lettersInArray.toUpperCase()
-        }
-        //decrement counter and reprint if not already guessed
-        game.guessesRemaining--;
-        countText.textContent = game.guessesRemaining;
-        //if you're out of guesses, reset the game
-        if (game.guessesRemaining === -1) {
+
+        //check if there is a win
+        if (game.wordArray.indexOf("___") === -1) {
+            //increment win counter & print it
+            game.winCounter++;
+            winsText.textContent = game.winCounter;
+            //change the picture and the text underneath it
+            var imageSrc = "assets/images/" + game.mathWord + ".svg";
+            geoImage.src = imageSrc;
+            picText.textContent = game.mathWord;
+            //reset the game
             resetGame();
         }
-    }
-
-    //check if there is a win
-    if (game.wordArray.indexOf("___") === -1) {
-        //increment win counter & print it
-        game.winCounter++;
-        winsText.textContent = game.winCounter;
-        //change the picture and the text underneath it
-        var imageSrc = "assets/images/" + game.mathWord + ".svg";
-        geoImage.src = imageSrc;
-        picText.textContent = game.mathWord;
-        //reset the game
-        resetGame();
     }
 }
