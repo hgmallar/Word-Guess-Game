@@ -1,5 +1,7 @@
 # Word-Guess-Game
 
+![frontpage image](wordguessgame.PNG)
+
 https://hgmallar.github.io/Word-Guess-Game/
 
 ## Word Guess Game
